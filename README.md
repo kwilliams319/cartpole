@@ -6,5 +6,5 @@
 <img src="animations/swingup_animation.gif" width="400" height="300">
 
 ## Lyapunov swingup + LQR stabilization & Disturbance rejection
-Just a pendulum, not a cartpole
+Just a pendulum, not a cartpole\
 <img src="animations/lyapunov.gif" width="400" height="300">
