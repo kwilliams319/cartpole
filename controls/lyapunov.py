@@ -7,8 +7,8 @@ import os, imageio
 
 class Pendulum:
     def __init__(self):
-        # self.x = np.zeros(2,)
-        self.x = np.array([np.pi/12, 0])
+        self.x = np.zeros(2,)
+        # self.x = np.array([np.pi/12, 0])
 
         
         self.params = m, g, l = 1, 9.81, 1
@@ -51,7 +51,10 @@ class Pendulum:
         plt.plot(x[1], y[1], 'o', markersize=20, c='tab:blue')
 
         control = "Lyapnuov" if self.swingup else "LQR"
-        plt.title(f"{control} Torque: {self.u:.2f}")
+        u = np.round(self.u, 2)
+        if abs(u) < .01:
+            u = 0.
+        plt.title(f"{control} Torque: {u:.2f}")
         plt.axis('equal')
         plt.xlim([-2, 2])
         plt.ylim([-2, 2])
@@ -77,7 +80,7 @@ class Pendulum:
 
         # print(th)
 
-        if np.abs(th) <= np.pi*.75:
+        if np.abs(th) <= np.pi*.95:
             k = 1
             E = m*l**2*thd**2/2 - m*g*l*c(th)
             u = k * thd * (m*g*l - E)
@@ -118,7 +121,7 @@ class Pendulum:
         for filename in os.listdir(self.image_folder):
             if filename.endswith(".png"):
                 images.append(imageio.imread(os.path.join(self.image_folder, filename)))
-        imageio.mimsave(gif_filename, images)
+        imageio.mimsave(gif_filename, images, loop=0)
         if os.path.exists(self.image_folder):
             import shutil
             shutil.rmtree(self.image_folder)
